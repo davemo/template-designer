@@ -1,30 +1,39 @@
 import React, { Component } from "react";
 import "./tailwind.css";
 
+class Field extends React.PureComponent {
+  render() {
+    const { selected, field } = this.props;
+    let selectedStyle = {
+      padding: "10px",
+      backgroundColor: "purple"
+    };
+    return (
+      <div
+        style={selected ? selectedStyle : {}}
+        onClick={() => {
+          this.props.onSelectField(field.id);
+        }}
+      >
+        {field.type === "textarea" ? <textarea /> : <input type={field.type} />}
+      </div>
+    );
+  }
+}
+
 const FormTemplate = props => {
   return (
     <div className="w-3/4">
       <h1>Template</h1>
       {props.fields.map((field, index) => {
         let selected = props.selectedFieldId === field.id;
-        let selectedStyle = {
-          padding: "10px",
-          backgroundColor: "purple"
-        };
         return (
-          <div
-            style={selected ? selectedStyle : {}}
+          <Field
             key={field.id}
-            onClick={() => {
-              props.onSelectField(field.id);
-            }}
-          >
-            {field.type === "textarea" ? (
-              <textarea />
-            ) : (
-              <input type={field.type} />
-            )}
-          </div>
+            selected={selected}
+            field={field}
+            onSelectField={props.onSelectField}
+          />
         );
       })}
     </div>
