@@ -5,7 +5,26 @@ const FormTemplate = (props) => {
   return (
     <div className="w-3/4">
       <h1>Template</h1>
-      <pre>{JSON.stringify(props.fields)}</pre>
+      {props.fields.map((field,index) => {
+        let selected = props.selectedFieldId === field.id
+        let selectedStyle = {
+          padding : "10px",
+          backgroundColor : "purple"
+        }
+        return (
+          <div style={selected ? selectedStyle : {}} key={field.id}
+          onClick={
+            () => {
+              props.onSelectField(field.id)
+            }
+          }>
+            {field.type === "textarea" ? 
+              <textarea/> :
+              <input type={field.type}/>}
+          </div>
+        )
+      })}
+     
     </div>
   )
 }
@@ -36,20 +55,25 @@ class TemplateDesigner extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      fields: []
+      fields: [],
+      selectedFieldId : -1
     }
   }
   addField = (field) => {
     this.setState({
-      fields: [...this.state.fields, field]
+      fields: [...this.state.fields, {id: new Date().valueOf(),type: field}]
     })
+  }
+
+  selectField = (id) => {
+    this.setState({selectedFieldId : id})
   }
 
   render() {
     return (
       <div className="container mx-auto">
         <div className="flex bg-grey-lighter">
-        <FormTemplate fields={this.state.fields} />
+        <FormTemplate fields={this.state.fields} onSelectField={this.selectField} selectedFieldId={this.state.selectedFieldId}/>
         <FormControls onAddField={this.addField} />
         </div>
       </div>
