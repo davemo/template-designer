@@ -16,7 +16,8 @@ const Field = props => {
   const { selected, field } = props;
   let selectedStyle = {
     padding: "10px",
-    backgroundColor: "purple"
+    backgroundColor: "teal",
+    color: "white"
   };
   return (
     <div
@@ -25,6 +26,7 @@ const Field = props => {
         props.onSelectField(field.id);
       }}
     >
+      <blockquote>{field.type}</blockquote>
       {
         field.type === "textarea" ?
           <textarea className={fieldStyleSelector(field.type)} /> :
