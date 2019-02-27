@@ -114,6 +114,14 @@ class TemplateDesigner extends Component {
             selectedFieldId={this.state.selectedFieldId}
           />
         </div>
+        <h3>Next Steps</h3>
+        <ul>
+          <li>Item Options Panel</li>
+          <li>Visual Regression Testing w/ Chroma.UI</li>
+          <li>Integration Testing with Cypress.io</li>
+          <li>Deploy into Traverse alongside Angular</li>
+          <li>Deploy into Electron as a Standalone App</li>
+        </ul>
       </div>
     );
   }
