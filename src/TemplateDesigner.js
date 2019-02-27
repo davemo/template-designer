@@ -1,29 +1,42 @@
 import React, { Component } from "react";
 import "./tailwind.css";
 
-class Field extends React.PureComponent {
-  render() {
-    const { selected, field } = this.props;
-    let selectedStyle = {
-      padding: "10px",
-      backgroundColor: "purple"
-    };
-    return (
-      <div
-        style={selected ? selectedStyle : {}}
-        onClick={() => {
-          this.props.onSelectField(field.id);
-        }}
-      >
-        {field.type === "textarea" ? <textarea /> : <input type={field.type} />}
-      </div>
-    );
+const fieldStyleSelector = (fieldType) => {
+  switch (fieldType){
+    case 'checkbox':
+      return "mr-2 leading-tight"
+    case 'textarea':
+      return "appearance-none block w-full bg-grey-lighter text-grey-darker border rounded py-3 px-4 mb-3"
+    default:
+      return "appearance-none block w-full bg-grey-lighter text-grey-darker border rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
   }
+};
+
+const Field = props => {
+  const { selected, field } = props;
+  let selectedStyle = {
+    padding: "10px",
+    backgroundColor: "purple"
+  };
+  return (
+    <div
+      style={selected ? selectedStyle : {}}
+      onClick={() => {
+        props.onSelectField(field.id);
+      }}
+    >
+      {
+        field.type === "textarea" ?
+          <textarea className={fieldStyleSelector(field.type)} /> :
+          <input className={fieldStyleSelector(field.type)} type={field.type} />
+      }
+    </div>
+  );
 }
 
 const FormTemplate = props => {
   return (
-    <div className="w-3/4">
+    <div className="w-3/4 p-10 bg-white">
       <h1>Template</h1>
       {props.fields.map((field, index) => {
         let selected = props.selectedFieldId === field.id;
@@ -43,24 +56,26 @@ const FormTemplate = props => {
 const ControlType = props => {
   return (
     <button
-      className="bg-blue text-white p-4"
+      className="bg-blue text-white p-4 block rounded w-full mb-4"
       onClick={e => {
         props.onAddField(props.type);
       }}
     >
-      {props.type}
+      {props.label}
     </button>
   );
 };
 
 const FormControls = props => {
   return (
-    <div className="w-1/4">
-      <h1>Controls</h1>
-      <ControlType type="textfield" {...props} />
-      <ControlType type="textarea" {...props} />
-      <ControlType type="date" {...props} />
-      <ControlType type="checkbox" {...props} />
+    <div className="w-1/4 p-10">
+      <h1>Add Item</h1>
+      <ControlType type="textfield" label="Text Field" {...props} />
+      <ControlType type="textarea" label="Text Area" {...props} />
+      <ControlType type="date" label="Date" {...props} />
+      <ControlType type="checkbox" label="Checkbox" {...props} />
+      <h1>Item Options</h1>
+      <p>Selected Item Id: {props.selectedFieldId}</p>
     </div>
   );
 };
@@ -92,7 +107,10 @@ class TemplateDesigner extends Component {
             onSelectField={this.selectField}
             selectedFieldId={this.state.selectedFieldId}
           />
-          <FormControls onAddField={this.addField} />
+          <FormControls
+            onAddField={this.addField}
+            selectedFieldId={this.state.selectedFieldId}
+          />
         </div>
       </div>
     );
