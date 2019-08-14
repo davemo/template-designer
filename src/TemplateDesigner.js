@@ -1,4 +1,6 @@
 import React, { Component } from "react";
+import Field from "./Field"
+import FormTemplate from './FormTemplate'
 import "./tailwind.css";
 
 const fieldStyleSelector = (fieldType) => {
@@ -10,49 +12,6 @@ const fieldStyleSelector = (fieldType) => {
     default:
       return "appearance-none block w-full bg-grey-lighter text-grey-darker border rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
   }
-};
-
-const Field = props => {
-  const { selected, field } = props;
-  let selectedStyle = {
-    padding: "10px",
-    backgroundColor: "teal",
-    color: "white"
-  };
-  return (
-    <div
-      style={selected ? selectedStyle : {}}
-      onClick={() => {
-        props.onSelectField(field.id);
-      }}
-    >
-      <blockquote>{field.type}</blockquote>
-      {
-        field.type === "textarea" ?
-          <textarea className={fieldStyleSelector(field.type)} /> :
-          <input className={fieldStyleSelector(field.type)} type={field.type} />
-      }
-    </div>
-  );
-}
-
-const FormTemplate = props => {
-  return (
-    <div className="w-3/4 p-10 bg-white">
-      <h1>Template</h1>
-      {props.fields.map((field, index) => {
-        let selected = props.selectedFieldId === field.id;
-        return (
-          <Field
-            key={field.id}
-            selected={selected}
-            field={field}
-            onSelectField={props.onSelectField}
-          />
-        );
-      })}
-    </div>
-  );
 };
 
 const ControlType = props => {
