@@ -1,0 +1,13 @@
+.logo-traverse:before {
+  display: inline-block;
+  flex-shrink: 0;
+  content: '';
+  background-image: url(/public/logo-traverse.svg);
+  background-repeat: no-repeat;
+  background-position-y: center;
+  background-position-x: center;
+  background-size: contain;
+  vertical-align: middle;
+  width: 22px;
+  height: 22px;
+}
